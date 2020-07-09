@@ -152,6 +152,19 @@ class BioNetwork(SimNetwork):
         self._node_adaptors['sonata'] = BioNodeAdaptor
         self._edge_adaptors['sonata'] = BioEdgeAdaptor
 
+    def make_cells_passive(self, cell):
+
+        remove_list = ["CaDynamics", "Ca_HVA", "Ca_LVA", "Ih","Im", "Im_v2",
+                       "Kd", "K_P", "K_T", "Kv2like", "Kv3_1", "Nap", "NaTa",
+                       "NaTs", "NaV", "SK"]
+
+        mt = h.MechanismType(0)
+        for sec in h.allsec():
+            for seg in sec:
+                for mech in remove_list:
+                    mt.select(mech)
+                    mt.remove()
+
     def build_nodes(self):
         for node_pop in self.node_populations:
             self._remote_node_cache[node_pop.name] = {}
@@ -159,6 +172,8 @@ class BioNetwork(SimNetwork):
             if node_pop.internal_nodes_only:
                 for node in node_pop[MPI_rank::MPI_size]:
                     cell = self._build_cell(node)
+                    if self._make_cells_passive:
+                        self.make_cells_passive(cell)
                     node_ids_map[node.node_id] = cell
                     self._rank_node_gids[cell.gid] = cell
 

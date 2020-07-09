@@ -301,6 +301,7 @@ class BioSimulator(Simulator):
                 network.set_spont_syn_activity(precell_filter=sim_input.params['precell_filter'],
                                                timestamps=sim_input.params['timestamps'])
 
+        network._make_cells_passive = "make_passive" in config.conditions.keys() and config.conditions["make_passive"]
         network.io.log_info('Building cells.')
         network.build_nodes()
 
@@ -314,10 +315,12 @@ class BioSimulator(Simulator):
             except:
                 print("Parameter node_set must be given in inputs module of simulation_config file. If unsure of what node_set should be, set it to 'all'.")
             node_set = network.get_node_set(sim_input.node_set)
+
             if sim_input.input_type == 'spikes':
                 io.log_info('Building virtual cell stimulations for {}'.format(sim_input.name))
                 path = sim_input.params['input_file']
                 spikes = SpikeTrains.load(path=path, file_type=sim_input.module, **sim_input.params)
+
                 network.add_spike_trains(spikes, node_set)
 
             elif sim_input.module == 'IClamp':

@@ -175,7 +175,9 @@ class BioCell(Cell):
 
     def set_syn_connection(self, edge_prop, src_node, stim=None):
         syn_weight = edge_prop.syn_weight(src_node=src_node, trg_node=self._node)
-
+        # if self.is_kernel_run:
+            # This has not been implemented yet. Just a reminder.
+            # syn_weight *= self.kernel_run_scale_down_factor
         if edge_prop.preselected_targets:
             self._edge_props.append(edge_prop)
             self._src_gids.append(src_node.node_id)

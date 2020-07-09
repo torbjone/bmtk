@@ -52,7 +52,7 @@ def load_reports(config_file):
 
 def plot_report(config_file=None, report_file=None, report_name=None, variables=None, node_ids=None):
     reports = load_reports(config_file)
-    for report in reports:
+    for p_idx, report in enumerate(reports):
         plt.figure()
         node_ids = report.node_ids() if node_ids is None else node_ids
         for node_id in node_ids:
@@ -68,7 +68,8 @@ def plot_report(config_file=None, report_file=None, report_name=None, variables=
         #plt.show()
 
     # print(reports)
-    plt.show()
+    # plt.show()
+        plt.savefig("plot_%d.png" % p_idx)
 
     """
     exit()

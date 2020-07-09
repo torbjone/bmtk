@@ -1,6 +1,7 @@
 """Simulates an example network of 450 cell receiving two kinds of exernal input as defined in the configuration file"""
 
-
+import matplotlib
+matplotlib.use("AGG")
 import sys, os
 
 from bmtk.simulator import bionet
@@ -15,7 +16,7 @@ def run(config_file):
     sim = bionet.BioSimulator.from_config(conf, network=net)
     sim.run()
 
-    plot_report(config_file='config.json', node_ids=[0, 10, 20, 30])
+    plot_report(config_file=config_file, node_ids=[0, 1])
 
     # bionet.nrn.quit_execution()
 

@@ -201,6 +201,16 @@ def exp1isyn(syn_params, xs, secs):
         syns.append(syn)
     return syns
 
+@synapse_model
+def Exp1iSyn(syn_params, x, sec):
+    syns = []
+
+    syn = h.exp1isyn(x, sec=sec)
+    syn.e = syn_params['e']
+    syn.tau = syn_params["tau"]
+    syns.append(syn)
+    return syn
+
 
 add_synapse_model(Exp2Syn, 'exp2syn', overwrite=False)
 add_synapse_model(Exp2Syn, overwrite=False)
